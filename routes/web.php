@@ -18,5 +18,4 @@ Route::get('/', function () {
 /**
  * Routes to user auth
  */
-Route::get('/login', ['uses' => 'Controller@fazerLogin']);
-Route::post('/login', ['as' => 'user.login', 'uses' => 'Controller@login']);
+Route::get('/login', ['uses' => 'Controller@login']);
