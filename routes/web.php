@@ -19,3 +19,4 @@ Route::get('/', function () {
  * Routes to user auth
  */
 Route::get('/login', ['uses' => 'Controller@login']);
+Route::get('/dashboard', ['as' => 'user.dashboard', 'uses' => 'DashboardController@index']);
