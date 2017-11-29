@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             'birth' => '1990-02-11',
             'gender' => 'M',
             'email' => 'jose@sistema.com',
-            'password' => bcrypt('123456'),
+            'password' => env('PASSWORD_HASH') ? bcrypt('123456') : '123456',
         ]);
 
         // $this->call(UsersTableSeeder::class);
