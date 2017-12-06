@@ -159,4 +159,13 @@ form.form-default label input{
     font: 400 1.25em 'Arial';
     background: transparent;
 }
+form.form-default label.submit{
+    background: #0ad181;
+    border-color: #0aaa67;
+}
+form.form-default label.submit input{
+    font-weight: 800;
+    text-transform: uppercase;
+    line-height: 50px;
+    color: #f9f9f9;
 }
