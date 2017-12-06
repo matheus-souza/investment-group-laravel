@@ -132,6 +132,10 @@ section#conteudo-view form input[type="submit"]{
  * Stylesheet to form default
  * ==========================
  */
+form.form-default{
+    float: left;
+    width: 100%;
+}
 form.form-default label{
     float: left;
     width: 49%;
