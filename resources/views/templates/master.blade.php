@@ -10,7 +10,9 @@
 </head>
 <body>
     @include('templates.menu')
-    @yield('content-view')
+    <section id="content-view">
+        @yield('content-view')
+    </section>
     @yield('js-view')
 </body>
 </html>

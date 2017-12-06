@@ -95,6 +95,7 @@ section#conteudo-view form input[type="submit"]{
     border: 1px solid #e9e9e9;
     box-shadow: 0 0 15px rgba(0,0,0,.15);
     background-color: #fff;
+    z-index: 5;
 }
 #main ul,
 #main ul li{
@@ -127,6 +128,22 @@ section#conteudo-view form input[type="submit"]{
 
 #main ul li a:hover{
     color: #00ff9c;
+}
+
+/**
+ * ==========================
+ * Stylesheet to content
+ * ==========================
+ */
+#content-view{
+    position: fixed;
+    float: left;
+    width: 100%;
+    height: 100%;
+    padding: 20px 20px 20px 240px;
+    z-index: 1;
+}
+
 /**
  * ==========================
  * Stylesheet to form default
