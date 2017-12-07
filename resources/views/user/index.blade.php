@@ -11,7 +11,7 @@
 @endsection
 
 @section('content-view')
-    {!! Form::open(['method' => 'post', 'class' => 'form-default']) !!}
+    {!! Form::open(['route' => 'user.store','method' => 'post', 'class' => 'form-default']) !!}
     @include('form.input', ['input' => 'cpf', 'attributes' => ['placeholder' => 'CPF']])
     @include('form.input', ['input' => '', 'attributes' => ['placeholder' => 'Nome']])
     @include('form.input', ['input' => 'phone', 'attributes' => ['placeholder' => 'Telefone']])
