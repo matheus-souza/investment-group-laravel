@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use Illuminate\Database\QueryException;
+use Exception;
+use Prettus\Validator\Exceptions\ValidatorException;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use App\Repositories\UserRepository;
 use App\Validators\UserValidator;
@@ -25,14 +28,20 @@ class UserService
 
             return [
                 'success' => true,
-                'message' => 'Usuário cadastrado',
+                'messages' => 'Usuário cadastrado',
                 'data' => $usuario,
             ];
-        } catch (\Exception $e) {
-            return [
-                'success' => false,
-                'message' => 'Erro de execução: ' . $e->getMessage(),
-            ];
+        } catch (Exception $e) {
+            switch (get_class($e)) {
+                case QueryException::class:
+                    return ['success' => false, 'messages' => 'Erro de execução: ' . $e->getMessage(), 'class:' => get_class($e)];
+                case ValidatorException::class:
+                    return ['success' => false, 'messages' => 'Erro de execução: ' . $e->getMessageBag(), 'class:' => get_class($e)];
+                case Exception::class:
+                    return ['success' => false, 'messages' => 'Erro de execução: ' . $e->getMessage(), 'class:' => get_class($e)];
+                default:
+                    return ['success' => false, 'messages' => 'Erro de execução: ' . $e->getMessage(), 'class:' => get_class($e)];
+            }
         }
     }
     public function update()
