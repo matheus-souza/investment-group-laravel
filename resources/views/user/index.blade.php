@@ -11,6 +11,13 @@
 @endsection
 
 @section('content-view')
+
+    @if(session('success'))
+        <h3>{{ session('success')['messages'] }}</h3>
+    @else
+        <h3>Teste demonio</h3>
+    @endif
+
     {!! Form::open(['route' => 'user.store','method' => 'post', 'class' => 'form-default']) !!}
     @include('form.input', ['input' => 'cpf', 'attributes' => ['placeholder' => 'CPF']])
     @include('form.input', ['input' => 'name', 'attributes' => ['placeholder' => 'Nome']])
