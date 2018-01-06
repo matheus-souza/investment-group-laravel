@@ -24,4 +24,32 @@
     @include('form.password', ['input' => 'password', 'attributes' => ['placeholder' => 'Senha']])
     @include('form.submit', ['input' => 'Cadastrar'])
     {!! Form::close() !!}
+    
+    <table class="default-table">
+        <thead>
+        <tr>
+            <td>#</td>
+            <td>CPF</td>
+            <td>Nome</td>
+            <td>Telefone</td>
+            <td>Nascimento</td>
+            <td>E-mail</td>
+            <td>Status</td>
+            <td>Permissão</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+
 @endsection
