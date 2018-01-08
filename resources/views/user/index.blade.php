@@ -24,7 +24,7 @@
     @include('form.password', ['input' => 'password', 'attributes' => ['placeholder' => 'Senha']])
     @include('form.submit', ['input' => 'Cadastrar'])
     {!! Form::close() !!}
-    
+
     <table class="default-table">
         <thead>
         <tr>
@@ -39,16 +39,18 @@
         </tr>
         </thead>
         <tbody>
+        @foreach($users as $user)
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ $user->id }}</td>
+            <td>{{ $user->cpf }}</td>
+            <td>{{ $user->name }}</td>
+            <td>{{ $user->phone }}</td>
+            <td>{{ $user->birth }}</td>
+            <td>{{ $user->email }}</td>
+            <td>{{ $user->status }}</td>
+            <td>{{ $user->permission }}</td>
         </tr>
+        @endforeach
         </tbody>
     </table>
 
