@@ -27,3 +27,7 @@ Route::get('/dashboard', ['as' => 'user.dashboard', 'uses' => 'DashboardControll
  */
 Route::resource('user', 'UsersController');
 
+/**
+ * Institution route
+ */
+Route::resource('institution', 'InstitutionsController');
