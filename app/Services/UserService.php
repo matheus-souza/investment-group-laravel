@@ -47,7 +47,27 @@ class UserService
     public function update()
     {
     }
-    public function delete()
+    public function delete($userId)
     {
+        try {
+            $this->repository->delete($userId);
+
+            return [
+                'success' => true,
+                'messages' => 'Usuário removido',
+                'data' => null,
+            ];
+        } catch (Exception $e) {
+            switch (get_class($e)) {
+                case QueryException::class:
+                    return ['success' => false, 'messages' => 'Erro de execução: ' . $e->getMessage(), 'class:' => get_class($e)];
+                case ValidatorException::class:
+                    return ['success' => false, 'messages' => 'Erro de execução: ' . $e->getMessageBag(), 'class:' => get_class($e)];
+                case Exception::class:
+                    return ['success' => false, 'messages' => 'Erro de execução: ' . $e->getMessage(), 'class:' => get_class($e)];
+                default:
+                    return ['success' => false, 'messages' => 'Erro de execução: ' . $e->getMessage(), 'class:' => get_class($e)];
+            }
+        }
     }
 }
