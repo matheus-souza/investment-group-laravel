@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\InstitutionService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -16,20 +17,15 @@ use App\Validators\InstitutionValidator;
 class InstitutionsController extends Controller
 {
 
-    /**
-     * @var InstitutionRepository
-     */
     protected $repository;
-
-    /**
-     * @var InstitutionValidator
-     */
     protected $validator;
+    protected $service;
 
-    public function __construct(InstitutionRepository $repository, InstitutionValidator $validator)
+    public function __construct(InstitutionRepository $repository, InstitutionValidator $validator, InstitutionService $service)
     {
         $this->repository = $repository;
         $this->validator  = $validator;
+        $this->service = $service;
     }
 
 
@@ -40,17 +36,11 @@ class InstitutionsController extends Controller
      */
     public function index()
     {
-        $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
         $institutions = $this->repository->all();
 
-        if (request()->wantsJson()) {
-
-            return response()->json([
-                'data' => $institutions,
-            ]);
-        }
-
-        return view('institutions.index', compact('institutions'));
+        return view('institutions.index', [
+            'institutions' => $institutions
+        ]);
     }
 
     /**
