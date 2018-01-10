@@ -52,34 +52,15 @@ class InstitutionsController extends Controller
      */
     public function store(InstitutionCreateRequest $request)
     {
+        $request = $this->service->store($request->all());
+        $institution = $request['success'] ? $request['data'] : null;
 
-        try {
+        session()->flash('success', [
+            'success' => $request['success'],
+            'messages' => $request['messages'],
+        ]);
 
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
-
-            $institution = $this->repository->create($request->all());
-
-            $response = [
-                'message' => 'Institution created.',
-                'data'    => $institution->toArray(),
-            ];
-
-            if ($request->wantsJson()) {
-
-                return response()->json($response);
-            }
-
-            return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
-
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
+        return redirect()->route('institution.index');
     }
 
 
