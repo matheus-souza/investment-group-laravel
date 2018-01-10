@@ -10,6 +10,15 @@ class Group extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $fillable = [];
+    protected $fillable = ['name', 'user_id', 'institution_id'];
 
+    public function owrner()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function institution()
+    {
+        return $this->belongsTo(Institution::class);
+    }
 }
