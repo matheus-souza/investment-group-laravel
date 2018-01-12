@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\InstitutionRepository;
+use App\Repositories\UserRepository;
 use App\Services\GroupService;
 use Illuminate\Http\Request;
 
@@ -17,12 +19,16 @@ use App\Validators\GroupValidator;
 class GroupsController extends Controller
 {
     protected $repository;
+    protected $institutionRepository;
+    protected $userRepository;
     protected $validator;
     protected $service;
 
-    public function __construct(GroupRepository $repository, GroupValidator $validator, GroupService $service)
+    public function __construct(GroupRepository $repository, GroupValidator $validator, GroupService $service, InstitutionRepository $institutionRepository, UserRepository $userRepository)
     {
         $this->repository = $repository;
+        $this->institutionRepository = $institutionRepository;
+        $this->userRepository = $userRepository;
         $this->validator  = $validator;
         $this->service = $service;
     }
@@ -37,8 +43,14 @@ class GroupsController extends Controller
     {
         $groups = $this->repository->all();
 
+        $userList = $this->userRepository->selectBoxList();
+        $institutionList = $this->institutionRepository->selectBoxList();
+
+
         return view('groups.index', [
-            'groups' => $groups
+            'groups' => $groups,
+            'user_list' => $userList,
+            'institution_list' => $institutionList,
         ]);
     }
 
