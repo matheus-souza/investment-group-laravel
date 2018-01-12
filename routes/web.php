@@ -22,12 +22,6 @@ Route::get('/login', ['uses' => 'Controller@login']);
 Route::post('/login', ['as' => 'user.login', 'uses' => 'DashboardController@auth']);
 Route::get('/dashboard', ['as' => 'user.dashboard', 'uses' => 'DashboardController@index']);
 
-/**
- * User route
- */
 Route::resource('user', 'UsersController');
-
-/**
- * Institution route
- */
 Route::resource('institution', 'InstitutionsController');
+Route::resource('group', 'GroupsController');
