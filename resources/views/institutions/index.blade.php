@@ -1,5 +1,9 @@
 @extends('templates.master')
 
+@section('page-title')
+    Instituições
+@endsection
+
 @section('content-view')
 
     @if(session('success'))
