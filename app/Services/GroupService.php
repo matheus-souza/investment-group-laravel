@@ -44,4 +44,32 @@ class GroupService
             }
         }
     }
+
+    public function userStore($groupId, $data)
+    {
+        try {
+            $group = $this->repository->find($groupId);
+            $userId = $data['user_id'];
+
+            $group->users()->attach($userId);
+            dd($group->users);
+
+            return [
+                'success' => true,
+                'messages' => 'Usuário relacionado com sucesso',
+                'data' => null,
+            ];
+        } catch (Exception $e) {
+            switch (get_class($e)) {
+                case QueryException::class:
+                    return ['success' => false, 'messages' => 'Erro de execução: ' . $e->getMessage(), 'class:' => get_class($e)];
+                case ValidatorException::class:
+                    return ['success' => false, 'messages' => 'Erro de execução: ' . $e->getMessageBag(), 'class:' => get_class($e)];
+                case Exception::class:
+                    return ['success' => false, 'messages' => 'Erro de execução: ' . $e->getMessage(), 'class:' => get_class($e)];
+                default:
+                    return ['success' => false, 'messages' => 'Erro de execução: ' . $e->getMessage(), 'class:' => get_class($e)];
+            }
+        }
+    }
 }

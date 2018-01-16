@@ -74,6 +74,25 @@ class GroupsController extends Controller
         return redirect()->route('group.index');
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  Request $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function userStore(Request $request, $groupId)
+    {
+        $request = $this->service->userStore($groupId, $request->all());
+
+        session()->flash('success', [
+            'success' => $request['success'],
+            'messages' => $request['messages'],
+        ]);
+
+        return redirect()->route('group.show', [$groupId]);
+    }
+
 
     /**
      * Display the specified resource.
