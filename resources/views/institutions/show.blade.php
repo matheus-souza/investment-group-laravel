@@ -1,7 +1,7 @@
 @extends('templates.master')
 
 @section('page-title')
-    Detalhes instituição
+    Detalhes da instituição
 @endsection
 
 @section('content-view')
