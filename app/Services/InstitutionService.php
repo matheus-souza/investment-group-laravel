@@ -44,4 +44,29 @@ class InstitutionService
             }
         }
     }
+
+    public function update($data, $id)
+    {
+        try {
+            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
+            $institution = $this->repository->update($data, $id);
+
+            return [
+                'success' => true,
+                'messages' => 'Instituição atualizada',
+                'data' => $institution,
+            ];
+        } catch (Exception $e) {
+            switch (get_class($e)) {
+                case QueryException::class:
+                    return ['success' => false, 'messages' => 'Erro de execução: ' . $e->getMessage(), 'class:' => get_class($e)];
+                case ValidatorException::class:
+                    return ['success' => false, 'messages' => 'Erro de execução: ' . $e->getMessageBag(), 'class:' => get_class($e)];
+                case Exception::class:
+                    return ['success' => false, 'messages' => 'Erro de execução: ' . $e->getMessage(), 'class:' => get_class($e)];
+                default:
+                    return ['success' => false, 'messages' => 'Erro de execução: ' . $e->getMessage(), 'class:' => get_class($e)];
+            }
+        }
+    }
 }

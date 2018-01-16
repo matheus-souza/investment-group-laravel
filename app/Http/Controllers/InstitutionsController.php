@@ -90,10 +90,11 @@ class InstitutionsController extends Controller
      */
     public function edit($id)
     {
-
         $institution = $this->repository->find($id);
 
-        return view('institutions.edit', compact('institution'));
+        return view('institutions.edit', [
+            'institution' => $institution
+        ]);
     }
 
 
@@ -105,38 +106,17 @@ class InstitutionsController extends Controller
      *
      * @return Response
      */
-    public function update(InstitutionUpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
+        $request = $this->service->update($request->all(), $id);
+        $institution = $request['success'] ? $request['data'] : null;
 
-        try {
+        session()->flash('success', [
+            'success' => $request['success'],
+            'messages' => $request['messages'],
+        ]);
 
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
-
-            $institution = $this->repository->update($request->all(), $id);
-
-            $response = [
-                'message' => 'Institution updated.',
-                'data'    => $institution->toArray(),
-            ];
-
-            if ($request->wantsJson()) {
-
-                return response()->json($response);
-            }
-
-            return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-
-            if ($request->wantsJson()) {
-
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
-
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
+        return redirect()->route('institution.index');
     }
 
 
