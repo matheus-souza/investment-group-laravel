@@ -15,8 +15,16 @@ class CreateProductsTable extends Migration
 	{
 		Schema::create('products', function(Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('institution_id');
+            $table->string('name', 45);
+            $table->text('description');
+            $table->text('index');
+            $table->decimal('interest_rate');
 
+            $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('institution_id')->references('id')->on('institutions');
 		});
 	}
 
@@ -27,7 +35,7 @@ class CreateProductsTable extends Migration
 	 */
 	public function down()
 	{
-		Schema::drop('products');
+		Schema::dropIfExists('products');
 	}
 
 }
