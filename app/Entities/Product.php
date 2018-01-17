@@ -10,6 +10,16 @@ class Product extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $fillable = [];
+    protected $fillable = [
+        'institution_id',
+        'name',
+        'description',
+        'index',
+        'interest_rate',
+    ];
 
+    public function institution()
+    {
+        return $this->belongsTo(Institution::class);
+    }
 }
