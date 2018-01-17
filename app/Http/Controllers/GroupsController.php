@@ -75,6 +75,26 @@ class GroupsController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $group = $this->repository->find($id);
+        $userList = $this->userRepository->selectBoxList();
+        $institutionList = $this->institutionRepository->selectBoxList();
+
+        return view('groups.edit', [
+            'group' => $group,
+            'user_list' => $userList,
+            'institution_list' => $institutionList,
+        ]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  Request $request
@@ -122,36 +142,15 @@ class GroupsController extends Controller
      */
     public function update(GroupUpdateRequest $request, $id)
     {
+        $request = $this->service->update($request->all(), $id);
+        $group = $request['success'] ? $request['data'] : null;
 
-        try {
+        session()->flash('success', [
+            'success' => $request['success'],
+            'messages' => $request['messages'],
+        ]);
 
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
-
-            $group = $this->repository->update($request->all(), $id);
-
-            $response = [
-                'message' => 'Group updated.',
-                'data'    => $group->toArray(),
-            ];
-
-            if ($request->wantsJson()) {
-
-                return response()->json($response);
-            }
-
-            return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-
-            if ($request->wantsJson()) {
-
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
-
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
+        return redirect()->route('group.index');
     }
 
 
