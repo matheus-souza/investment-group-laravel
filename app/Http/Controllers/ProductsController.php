@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\Institution;
+use App\Services\ProductService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -15,21 +17,15 @@ use App\Validators\ProductValidator;
 
 class ProductsController extends Controller
 {
-
-    /**
-     * @var ProductRepository
-     */
     protected $repository;
-
-    /**
-     * @var ProductValidator
-     */
     protected $validator;
+    protected $service;
 
-    public function __construct(ProductRepository $repository, ProductValidator $validator)
+    public function __construct(ProductRepository $repository, ProductValidator $validator, ProductService $service)
     {
         $this->repository = $repository;
         $this->validator  = $validator;
+        $this->service = $service;
     }
 
 
@@ -56,36 +52,20 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(ProductCreateRequest $request)
+    public function store(ProductCreateRequest $request, $institutionId)
     {
+        $data = $request->all();
+        $data['institution_id'] = $institutionId;
 
-        try {
+        $request = $this->service->store($data);
+        $product = $request['success'] ? $request['data'] : null;
 
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
+        session()->flash('success', [
+            'success' => $request['success'],
+            'messages' => $request['messages'],
+        ]);
 
-            $product = $this->repository->create($request->all());
-
-            $response = [
-                'message' => 'Product created.',
-                'data'    => $product->toArray(),
-            ];
-
-            if ($request->wantsJson()) {
-
-                return response()->json($response);
-            }
-
-            return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
-
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
+        return redirect()->route('institution.product.index', $institutionId);
     }
 
 
