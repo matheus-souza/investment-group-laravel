@@ -38,19 +38,15 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($institutionId)
     {
-        $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
         $products = $this->repository->all();
+        $institution = Institution::find($institutionId);
 
-        if (request()->wantsJson()) {
-
-            return response()->json([
-                'data' => $products,
-            ]);
-        }
-
-        return view('products.index', compact('products'));
+        return view('institutions.products.index', [
+            'products' => $products,
+            'institution' => $institution,
+        ]);
     }
 
     /**
