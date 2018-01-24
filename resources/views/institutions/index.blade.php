@@ -10,10 +10,14 @@
         <h3>{{ session('success')['messages'] }}</h3>
     @endif
 
-    {!! Form::open(['route' => 'institution.store', 'method' => 'POST', 'class' => 'form-default']) !!}
-    @include('form.input', ['input' => 'name', 'attributes' => ['placeholder' => 'Nome']])
-    @include('form.submit', ['input' => 'Cadastrar'])
-    {!! Form::close() !!}
+    <div class="form-control">
+        {!! Form::open(['route' => 'institution.store', 'method' => 'POST', 'class' => 'form-default']) !!}
+        <div class="form-row">
+            @include('form.input', ['input' => 'name', 'attributes' => ['placeholder' => 'Nome']])
+        </div>
+        @include('form.submit', ['input' => 'Cadastrar'])
+        {!! Form::close() !!}
+    </div>
 
     <table class="default-table">
         <thead>
