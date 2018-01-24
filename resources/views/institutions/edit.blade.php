@@ -16,9 +16,13 @@
         <h3>{{ session('success')['messages'] }}</h3>
     @endif
 
-    {!! Form::model($institution, ['route' => ['institution.update', $institution->id],'method' => 'PUT', 'class' => 'form-default']) !!}
-    @include('form.input', ['input' => 'name', 'attributes' => ['placeholder' => 'Nome']])
-    @include('form.submit', ['input' => 'Atualizar'])
-    {!! Form::close() !!}
+    <div class="form-control">
+        {!! Form::model($institution, ['route' => ['institution.update', $institution->id],'method' => 'PUT', 'class' => 'form-default']) !!}
+        <div class="form-row">
+            @include('form.input', ['input' => 'name', 'attributes' => ['placeholder' => 'Nome']])
+        </div>
+        @include('form.submit', ['input' => 'Atualizar'])
+        {!! Form::close() !!}
+    </div>
 
 @endsection
