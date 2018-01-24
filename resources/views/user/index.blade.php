@@ -11,15 +11,16 @@
 @endsection
 
 @section('content-view')
-
     @if(session('success'))
         <h3>{{ session('success')['messages'] }}</h3>
     @endif
 
-    {!! Form::open(['route' => 'user.store','method' => 'post', 'class' => 'form-default']) !!}
-    @include('user.form-fields')
-    @include('form.submit', ['input' => 'Cadastrar'])
-    {!! Form::close() !!}
+    <div class="form-control">
+        {!! Form::open(['route' => 'user.store','method' => 'post']) !!}
+        @include('user.form-fields')
+        @include('form.submit', ['input' => 'Cadastrar'])
+        {!! Form::close() !!}
+    </div>
 
     @include('user.list', ['user_list' => $users])
 
