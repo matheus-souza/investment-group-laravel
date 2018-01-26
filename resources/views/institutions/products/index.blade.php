@@ -10,36 +10,45 @@
         <h3>{{ session('success')['messages'] }}</h3>
     @endif
 
-    {!! Form::open(['route' => ['institution.product.store', $institution->id], 'method' => 'POST', 'class' => 'form-default']) !!}
-    @include('form.input', ['input' => 'name', 'attributes' => ['placeholder' => 'Nome']])
-    @include('form.input', ['input' => 'description', 'attributes' => ['placeholder' => 'Descrição ']])
-    @include('form.input', ['input' => 'index', 'attributes' => ['placeholder' => 'Indexador']])
-    @include('form.input', ['input' => 'interest_rate', 'attributes' => ['placeholder' => 'Taxa de juros']])
-    @include('form.submit', ['input' => 'Cadastrar'])
-    {!! Form::close() !!}
+    <div class="form-control">
+        {!! Form::open(['route' => ['institution.product.store', $institution->id], 'method' => 'POST', 'class' => 'form-default']) !!}
+        <div class="form-row">
+            @include('form.input', ['input' => 'name', 'attributes' => ['placeholder' => 'Nome']])
+            @include('form.input', ['input' => 'description', 'attributes' => ['placeholder' => 'Descrição ']])
+        </div>
+        <div class="form-row">
+            @include('form.input', ['input' => 'index', 'attributes' => ['placeholder' => 'Indexador']])
+            @include('form.input', ['input' => 'interest_rate', 'attributes' => ['placeholder' => 'Taxa de juros']])
+        </div>
+        @include('form.submit', ['input' => 'Cadastrar'])
+        {!! Form::close() !!}
+    </div>
 
-    <table class="default-table">
+    <table class="table table-hover">
         <thead>
-        <tr>
-            <th>#</th>
-            <th>Nome</th>
-            <th>Descrição</th>
-            <th>Indexador</th>
-            <th>Taxas</th>
-            <th>Ações</th>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Indexador</th>
+                <th scope="col">Taxas</th>
+                <th scope="col">Ações</th>
+            </tr>
         </thead>
         <tbody>
         @foreach($institution->products as $product)
             <tr>
-                <td>{{ $product->id }}</td>
+                <th scope="row">{{ $product->id }}</th>
                 <td>{{ $product->name }}</td>
                 <td>{{ $product->description }}</td>
                 <td>{{ $product->index }}</td>
                 <td>{{ $product->interest_rate }}</td>
-                <td>
-                    {!! Form::open(['route' => ['institution.product.destroy', $institution->id, $product->id], 'method' => 'DELETE']); !!}
-                    {!! Form::submit('Remover') !!}
-                    {!! Form::close(); !!}
+                <td class="btn-toolbar">
+                    <div class="btn-group mr-2">
+                        {!! Form::open(['route' => ['institution.product.destroy', $institution->id, $product->id], 'method' => 'DELETE']); !!}
+                        <button type="submit" class="btn btn-danger">Remover</button>
+                        {!! Form::close(); !!}
+                    </div>
                 </td>
             </tr>
         @endforeach
