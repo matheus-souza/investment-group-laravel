@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Investe Bem | Login</title>
-    <link rel="stylesheet" href="{{ asset('css/stylesheet.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fredoka+One">
 </head>
 <body>
