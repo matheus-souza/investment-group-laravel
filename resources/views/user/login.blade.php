@@ -3,27 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Investe Bem | Login</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fredoka+One">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div class="background">
-
+    <div class="container">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-6">
+                <h1>Investe Bem</h1>
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Sign In</h3>
+                    </div>
+                    <div class="panel-body">
+                        {!! Form::open(['route' => 'user.login', 'method' => 'POST']) !!}
+                        <fieldset>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="E-mail/Usuário" name="username" type="email" autofocus="">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                </div>
+                                @include('form.submit', ['input' => 'Entrar'])
+                            </fieldset>
+                        {!! Form::close() !!}
+                    </div>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
     </div>
-    <section id="conteudo-view" class="login">
-        <h1>Investe Bem</h1>
-        <h3>O nosso gerencidor de investimentos</h3>
-        {!! Form::open(['route' => 'user.login', 'method' => 'post']) !!}
-        <p>Acesse o sistema</p>
-
-        {{--{!! Form::label('username', 'Usuário', ['class' => 'control-label']) !!}--}}
-        {!! Form::text('username', null, ['class' => 'input', 'placeholder' => 'Usuário']) !!}
-
-        {{--{!! Form::label('password', 'Senha', ['class' => 'control-label']) !!}--}}
-        {!! Form::password('password', null, ['class' => 'input', 'placeholder' => 'Senha']) !!}
-
-        {!! Form::submit('Entrar') !!}
-
-        {!! Form::close() !!}
-    </section>
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
