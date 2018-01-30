@@ -15,8 +15,18 @@ class CreateMovimentsTable extends Migration
 	{
 		Schema::create('moviments', function(Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('group_id');
+            $table->unsignedInteger('product_id');
+            $table->decimal('value');
+            $table->integer('type');
 
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('group_id')->references('id')->on('groups');
+            $table->foreign('product_id')->references('id')->on('products');
 		});
 	}
 
