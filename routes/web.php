@@ -12,13 +12,13 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('user.login');
 });
 
 /**
  * Routes to user auth
  */
-Route::get('/login', ['uses' => 'Controller@login']);
+Route::get('/login', ['as' => 'user.login', 'uses' => 'Controller@login']);
 Route::post('/login', ['as' => 'user.login', 'uses' => 'DashboardController@auth']);
 Route::get('/dashboard', ['as' => 'user.dashboard', 'uses' => 'DashboardController@index']);
 
