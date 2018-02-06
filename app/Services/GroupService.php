@@ -52,7 +52,6 @@ class GroupService
             $userId = $data['user_id'];
 
             $group->users()->attach($userId);
-            dd($group->users);
 
             return [
                 'success' => true,
