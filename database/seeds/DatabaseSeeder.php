@@ -14,11 +14,11 @@ class DatabaseSeeder extends Seeder
     {
         User::create([
             'cpf' => '11122233444',
-            'name' => 'José',
+            'name' => 'Login',
             'phone' => '51999999999',
             'birth' => '1990-02-11',
             'gender' => 'M',
-            'email' => 'jose@sis.com',
+            'email' => 'login@login.com',
             'password' => env('PASSWORD_HASH') ? bcrypt('123456') : '123456',
         ]);
 
