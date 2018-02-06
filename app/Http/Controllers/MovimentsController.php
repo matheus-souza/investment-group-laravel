@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\Group;
+use App\Entities\Product;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -11,6 +13,7 @@ use App\Http\Requests\MovimentCreateRequest;
 use App\Http\Requests\MovimentUpdateRequest;
 use App\Repositories\MovimentRepository;
 use App\Validators\MovimentValidator;
+use Auth;
 
 
 class MovimentsController extends Controller
@@ -40,17 +43,6 @@ class MovimentsController extends Controller
      */
     public function index()
     {
-        $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        $moviments = $this->repository->all();
-
-        if (request()->wantsJson()) {
-
-            return response()->json([
-                'data' => $moviments,
-            ]);
-        }
-
-        return view('moviments.index', compact('moviments'));
     }
 
     /**
@@ -62,34 +54,6 @@ class MovimentsController extends Controller
      */
     public function store(MovimentCreateRequest $request)
     {
-
-        try {
-
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
-
-            $moviment = $this->repository->create($request->all());
-
-            $response = [
-                'message' => 'Moviment created.',
-                'data'    => $moviment->toArray(),
-            ];
-
-            if ($request->wantsJson()) {
-
-                return response()->json($response);
-            }
-
-            return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
-
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
     }
 
 
@@ -102,16 +66,6 @@ class MovimentsController extends Controller
      */
     public function show($id)
     {
-        $moviment = $this->repository->find($id);
-
-        if (request()->wantsJson()) {
-
-            return response()->json([
-                'data' => $moviment,
-            ]);
-        }
-
-        return view('moviments.show', compact('moviment'));
     }
 
 
@@ -124,10 +78,6 @@ class MovimentsController extends Controller
      */
     public function edit($id)
     {
-
-        $moviment = $this->repository->find($id);
-
-        return view('moviments.edit', compact('moviment'));
     }
 
 
@@ -141,36 +91,6 @@ class MovimentsController extends Controller
      */
     public function update(MovimentUpdateRequest $request, $id)
     {
-
-        try {
-
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
-
-            $moviment = $this->repository->update($request->all(), $id);
-
-            $response = [
-                'message' => 'Moviment updated.',
-                'data'    => $moviment->toArray(),
-            ];
-
-            if ($request->wantsJson()) {
-
-                return response()->json($response);
-            }
-
-            return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-
-            if ($request->wantsJson()) {
-
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
-
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
     }
 
 
@@ -183,16 +103,17 @@ class MovimentsController extends Controller
      */
     public function destroy($id)
     {
-        $deleted = $this->repository->delete($id);
+    }
 
-        if (request()->wantsJson()) {
+    public function application()
+    {
+        $user = Auth::user();
+        $group_list = $user->groups->pluck('name', 'id');
+        $product_list = Product::all()->pluck('name', 'id');
 
-            return response()->json([
-                'message' => 'Moviment deleted.',
-                'deleted' => $deleted,
-            ]);
-        }
-
-        return redirect()->back()->with('message', 'Moviment deleted.');
+        return view('moviment.application', [
+            'group_list' => $group_list,
+            'product_list' => $product_list,
+        ]);
     }
 }
