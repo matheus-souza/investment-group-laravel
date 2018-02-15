@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Entities\Group;
+use App\Entities\Moviment;
 use App\Entities\Product;
 use Illuminate\Http\Request;
 
@@ -115,5 +116,23 @@ class MovimentsController extends Controller
             'group_list' => $group_list,
             'product_list' => $product_list,
         ]);
+    }
+
+    public function storeApplication(Request $request)
+    {
+        $moviment = Moviment::create([
+            'user_id' => Auth::user()->id,
+            'group_id' => $request->get('group_id'),
+            'product_id' => $request->get('product_id'),
+            'value' => $request->get('value'),
+            'type' => 1,
+        ]);
+
+        session()->flash('success', [
+            'success' => true,
+            'messages' => "Aplicação de {$moviment->value} no produto {$moviment->product->name} foi realizada com sucesso",
+        ]);
+
+        return redirect()->route('moviment.application');
     }
 }
