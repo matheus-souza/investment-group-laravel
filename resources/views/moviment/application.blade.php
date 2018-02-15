@@ -6,6 +6,10 @@
 
 @section('content-view')
 
+    @if(session('success'))
+        <h3>{{ session('success')['messages'] }}</h3>
+    @endif
+
     <div class="form-control">
         {!! Form::open(['route' => 'moviment.application.store', 'method' => 'POST', 'class' => 'form-default']) !!}
         <div class="form-row">
