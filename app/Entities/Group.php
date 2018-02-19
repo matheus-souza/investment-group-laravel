@@ -26,4 +26,9 @@ class Group extends Model implements Transformable
     {
         return $this->belongsTo(Institution::class);
     }
+
+    public function moviments()
+    {
+        return $this->hasMany(Moviment::class);
+    }
 }
