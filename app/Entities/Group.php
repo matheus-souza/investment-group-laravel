@@ -12,6 +12,17 @@ class Group extends Model implements Transformable
 
     protected $fillable = ['name', 'user_id', 'institution_id'];
 
+    public function getTotalValueAttribute()
+    {
+        $total = 0;
+
+        foreach ($this->moviments as $moviment) {
+            $total += $moviment->value;
+        }
+
+        return $total;
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
